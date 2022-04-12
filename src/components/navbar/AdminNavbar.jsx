@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { PowerSettingsNew, KeyboardArrowDown } from "@material-ui/icons"
 import { Link } from 'react-router-dom'
-const Navbar = (props) => {
+const AdminNavbar = (props) => {
     const [showMenu, setShowMenu] = useState(false)
     const handleClick = (e) => {
         setShowMenu(prevState => !prevState)
@@ -10,17 +10,18 @@ const Navbar = (props) => {
   return (
     <header className="bg-indigo-900 ">
         <nav className="w-11/12 mx-auto md:max-w-4xl">
-            <div className=" flex justify-between items-center h-12">
-                <Link to="/" className="text-2xl font-bold text-white">GIT FUND</Link>
-                <ul className="hidden justify-between text-white w-1/3 md:flex">
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/depots">Dépots</Link></li>
-                    <li><Link to="/retraits">Retraits</Link></li>
-                    <li><Link to="/adherents">Adhérents</Link></li>
+            <div className=" flex items-center h-12">
+                <Link to="/" className="text-2xl font-bold text-white flex-1">GIT FUND</Link>
+                <ul className="hidden justify-between text-white w-1/3 md:flex flex-[3]">
+                    <li><Link to="/admin/dashboard">Dashboard</Link></li>
+                    <li><Link to="/admin/depots">Dépots</Link></li>
+                    <li><Link to="/admin/retraits">Retraits</Link></li>
+                    <li><Link to="/admin/adherents">Adhérents</Link></li>
+                    <li><Link to="/admin/admin">Admin</Link></li>
                 </ul>
-                <div className="relative">
+                <div className="relative flex justify-end flex-1">
                     <div className="text-white flex items-center">
-                        <Link to="/admin/dashboard" className=" mr-10">Dashboard</Link>
+                        <Link to="/" className=" mr-10">Home</Link>
                         <span className="md:hidden">
                             <PowerSettingsNew/>
                         </span>
@@ -41,14 +42,15 @@ const Navbar = (props) => {
                 </div>
             </div>
             <ul className="flex text-white justify-between pb-3 md:hidden">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/depots">Dépots</Link></li>
-                <li><Link to="/retraits">Retraits</Link></li>
-                <li><Link to="/adherents">Adhérents</Link></li>
+                <li><Link to="/admin/dashboard">Dashboard</Link></li>
+                <li><Link to="/admin/depots">Dépots</Link></li>
+                <li><Link to="/admin/retraits">Retraits</Link></li>
+                <li><Link to="/admin/adherents">Adhérents</Link></li>
+                <li><Link to="/admin/admin">Admin</Link></li>
             </ul>
         </nav>
     </header>
   )
 }
 
-export default Navbar
+export default AdminNavbar
