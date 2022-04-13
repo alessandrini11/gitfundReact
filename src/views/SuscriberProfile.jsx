@@ -1,6 +1,30 @@
-import React from 'react'
+import {useState, useEffect} from 'react'
+import {useParams} from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar'
+import axios from '../utils/axios'
 const SuscriberProfile = () => {
+    const [suscriber, setSuscriber] = useState({})
+    const {id} = useParams()
+    const months = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+    useEffect(() =>{
+        axios
+            .get('/suscribers/'+id)
+            .then(data => {
+                setSuscriber(data.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },[id])
+    let depots = []
+    if(suscriber.deposits){
+        suscriber.deposits.map(depot => {
+            const dep = {...depot,createdAt: new Date(depot.createdAt.toString())}
+            return depots.push(dep)
+        })
+    }
   return (
     <div>
         <Navbar></Navbar>
@@ -12,11 +36,10 @@ const SuscriberProfile = () => {
                             <div style={{paddingBottom: "100%"}} className="mb-5 relative h-0">
                                 <img className="absolute inset-0 h-full w-full object-cover rounded-full" src="https://images.pexels.com/photos/4565508/pexels-photo-4565508.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt=""/>
                             </div>
-                            <p>Schuame Alexandre Lionel</p>
-                            <p>Masculin</p>
-                            <p>GL</p>
-                            <p>20G00624</p>
-                            <p>Président</p>
+                            <p>{suscriber.firstName+ ' '+ suscriber.lastName}</p>
+                            <p>{suscriber.sex && suscriber.sex.name}</p>
+                            <p>{suscriber.speciality && suscriber.speciality.name} </p>
+                            <p>{suscriber.registrationNumber} </p>
                         </div>
                         
                     </div>
@@ -37,27 +60,15 @@ const SuscriberProfile = () => {
                                         <th>Date</th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
-                                    <tr className="bg-gray-100">
-                                        <td>2000</td>
-                                        <td> 13 fev 2021</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2000</td>
-                                        <td> 13 fev 2021</td>
-                                    </tr>
-                                    <tr className="bg-gray-100">
-                                        <td>2000</td>
-                                        <td> 13 fev 2021</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2000</td>
-                                        <td> 13 fev 2021</td>
-                                    </tr>
-                                    <tr className="bg-gray-100">
-                                        <td>2000</td>
-                                        <td> 13 fev 2021</td>
-                                    </tr>
+                                    {suscriber.deposits && depots.map(deposit => (
+                                        <tr className="bg-gray-100">
+                                            {console.log(deposit)}
+                                            <td>{deposit.amount} </td>
+                                            <td> {deposit.createdAt.getDate()} {months[deposit.createdAt.getMonth()]} {deposit.createdAt.getFullYear()}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>

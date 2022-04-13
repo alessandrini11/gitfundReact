@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react'
 import AdminNavbar from '../../components/navbar/AdminNavbar'
 import AdminWithdrawalTable from '../../components/WithdrawalTable'
-import { depenses} from '../../bd/fakeDb'
+import axios from '../../utils/axios'
 const AdminWithdrawal = () => {
   const [depensesData, setDepensesData] = useState([])
   useEffect(() =>{
-    setDepensesData(depenses)
+    axios
+    .get('/withdrawals')
+    .then(data => {
+      
+      setDepensesData(data.data.withdrawals)
+    })
+    .catch(err => console.log(err))
   },[])
   return (
     <div>
