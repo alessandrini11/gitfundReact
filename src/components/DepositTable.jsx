@@ -5,14 +5,10 @@ const DepositTable = (props) => {
     const months = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ]
-    let depotSuscriber = []
-    props.data.depots.map(depot => {
-        const suscriber = props.data.suscribers.filter(suscriber => suscriber.id === depot.suscriber)
-        let depsus = {
-            depot,
-            suscriber
-        }
-        return depotSuscriber.push(depsus)
+    let depots = []
+    props.data.map(depot => {
+        let depsus = { ...depot,createdAt: new Date(depot.createdAt.toString()) }
+        return depots.push(depsus)
     })
   return (
     <div className="overflow-x-auto">
@@ -40,30 +36,30 @@ const DepositTable = (props) => {
                         </tr>
                         </thead>
                         <tbody className="text-gray-600 text-sm font-light">
-                            {depotSuscriber.map((object, index) => (
+                            {depots.map((object, index) => (
                             <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
                                 <td className="py-3 px-6 text-left whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="mr-2">
-                                            {object.suscriber[0].firstName}
+                                            {object.suscriber.firstName}
                                         </div>
                                     </div>
                                 </td>
                                 <td className="py-3 px-6 text-left">
                                     <div className="flex items-center justify-center">
-                                        <span>{object.suscriber[0].lastName}</span>
+                                        <span>{object.suscriber.lastName}</span>
                                     </div>
                                 </td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">
                                     <div className="flex items-center justify-center">
                                         <div className="mr-2">
-                                        {object.depot.amount}
+                                        {object.amount}
                                         </div>
                                     </div>
                                 </td>
                                 <td className="py-3 px-6 text-center">
                                     <div className="flex item-center justify-center">
-                                    {object.depot.date.getDate()} {months[object.depot.date.getMonth()]} {object.depot.date.getFullYear()}
+                                    {object.createdAt.getDate()} {months[object.createdAt.getMonth()]} {object.createdAt.getFullYear()}
                                     </div>
                                 </td>
                                 {props.admin && 

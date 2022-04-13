@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react'
 import Navbar from '../components/navbar/Navbar'
 import WithdrawalTable from '../components/WithdrawalTable'
-import { depenses } from '../bd/fakeDb'
+import axios from '../utils/axios'
 import Footer from '../components/Footer'
 
 const Withdrawals = () => {
   const [depensesData, setDepensesData] = useState([])
   useEffect(() =>{
-    setDepensesData(depenses)
+    axios
+      .get('/withdrawals')
+      .then(data => {
+        
+        setDepensesData(data.data.withdrawals)
+      })
+      .catch(err => console.log(err))
   },[])
   return (
     <div>

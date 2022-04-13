@@ -5,6 +5,11 @@ const WithdrawalTable = (props) => {
     const months = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ]
+    let depenses = []
+    props.data.map(depot => {
+        let depsus = { ...depot,createdAt: new Date(depot.createdAt.toString()) }
+        return depenses.push(depsus)
+    })
   return (
         <div className="overflow-x-auto">
             <div className={`min-w-screen ${props.admin && `min-h-screen` } flex justify-center font-sans `}>
@@ -29,12 +34,17 @@ const WithdrawalTable = (props) => {
                             </tr>
                             </thead>
                             <tbody className="text-gray-600 text-sm font-light">
-                            {props.data.map((depense,index) => (
+                            {props.data.length === 0 && 
+                                <tr className="">
+                                    <td className="py-3 text-center">No withdrawal found</td>
+                                </tr>
+                            } 
+                            {depenses.map((depense,index) => (
                                 <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
                                     <td className="py-3 px-1 text-left whitespace-nowrap">
                                         <div className="">
                                             <div className="mr-2">
-                                                {depense.motif}
+                                                {depense.reason}
                                             </div>
                                         </div>
                                     </td>
@@ -45,7 +55,7 @@ const WithdrawalTable = (props) => {
                                     </td>
                                     <td className="py-3 px-6 text-center">
                                         <div className="flex item-center justify-center">
-                                        {depense.date.getDate()} {months[depense.date.getMonth()]} {depense.date.getFullYear()}
+                                        {depense.createdAt.getDate()} {months[depense.createdAt.getMonth()]} {depense.createdAt.getFullYear()}
                                         </div>
                                     </td>
                                     {props.admin && 
@@ -60,7 +70,7 @@ const WithdrawalTable = (props) => {
                                                 </a>
                                             </div>
                                             <div className="w-5 mr-2 transform hover:scale-110">
-                                                <Link to="/admin/withdrawal/edit/1" className=" hover:text-purple-500">
+                                                <Link to={`/admin/withdrawal/edit/${depense.id}`} className=" hover:text-purple-500">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                     </svg>

@@ -6,7 +6,7 @@ import DepositTable from '../components/DepositTable'
 import WithdrawalTable from '../components/WithdrawalTable'
 import Footer from '../components/Footer'
 import { Add, Remove, LocalAtm } from '@material-ui/icons'
-import { deposits, depenses, suscriber} from '../bd/fakeDb'
+import axios from '../utils/axios'
 class Home extends Component  {
     state = {
         homeDepot: [],
@@ -14,11 +14,27 @@ class Home extends Component  {
         homeSuscriber: [],
     }
     componentDidMount() {
-        this.setState({
-            homeDepot: deposits,
-            homeDepenses: depenses,
-            homeSuscriber: suscriber
-        })
+        axios
+            .get('/deposits')
+            .then(data => {
+                this.setState({
+                    homeDepot: data.data.deposits
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        axios
+            .get('/withdrawals')
+            .then(data => {
+                this.setState({
+                    homeDepenses: data.data.withdrawals
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        
     }
     render(){
         let totalDepots = 0
@@ -30,10 +46,6 @@ class Home extends Component  {
             return totalDepense = totalDepense + depense.amount
         })
         const solde = totalDepots - totalDepense
-        const depotsList = {
-            depots: this.state.homeDepot.slice(0,4),
-            suscribers: this.state.homeSuscriber
-        }
         return (
             <div>
                 <Navbar></Navbar>
@@ -62,11 +74,11 @@ class Home extends Component  {
                             <h1 className="text-3xl">Les Transactions Récentes</h1>
                             <div className="border shadow my-5 py-3 px-2">
                                 <h2 className="mb-4 text-2xl">Dépot</h2>
-                                <DepositTable data={depotsList}></DepositTable>
+                                <DepositTable data={this.state.homeDepot.slice(0,4)}></DepositTable>
                             </div>
                             <div className="border shadow my-5 py-3 px-2">
                                 <h2 className="text-2xl mb-4">Retrait</h2>
-                                <WithdrawalTable data={this.state.homeDepenses}></WithdrawalTable>
+                                <WithdrawalTable data={this.state.homeDepenses}></WithdrawalTable> 
                             </div>
                         </section>
                     </main>

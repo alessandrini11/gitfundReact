@@ -3,28 +3,28 @@ const randomDate = (start, end) => {
 } 
 exports.admin = [
     {
-        id: Math.random() * 1000 + '-'+ new Date(),
+        id: Math.random() * 1000,
         username: 'alex',
         password: 'alex',
         role: 'super_admin',
         isBlocked: false
     },
     {
-        id: Math.random() * 1000 + '-'+ new Date(),
+        id: Math.random() * 1000,
         username: 'legrand',
         password: 'legrand',
         role: 'admin',
         isBlocked: false
     },
     {
-        id: Math.random() * 1000 + '-'+ new Date(),
+        id: Math.random() * 1000 ,
         username: 'visitor',
         password: 'visitor',
         role: 'visitor',
         isBlocked: false
     },
     {
-        id: Math.random() * 1000 + '-'+ new Date(),
+        id: Math.random() * 1000 ,
         username: 'chap',
         password: 'chap',
         role: 'visitor',

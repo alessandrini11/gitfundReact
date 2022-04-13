@@ -1,8 +1,14 @@
-import React from 'react'
+import { useState, useEffect} from 'react'
 import { Add } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import AdminNavbar from '../../components/navbar/AdminNavbar'
+import { admin } from '../../bd/fakeDb'
 const Admin = (props) => {
+    const [adminData,setAdminData] = useState([])
+    useEffect(() => {
+        setAdminData(admin)
+    },[])
+    console.log(adminData)
   return (
     <div>
         <AdminNavbar></AdminNavbar>
@@ -28,23 +34,24 @@ const Admin = (props) => {
                                 </tr>
                                 </thead>
                                 <tbody className="text-gray-600 text-sm font-light">
-                                <tr className="border-b border-gray-200 hover:bg-gray-100">
+                                {adminData.map(admin => (
+                                    <tr key={admin.id} className="border-b border-gray-200 hover:bg-gray-100">
                                     <td className="py-3 px-6 text-left whitespace-nowrap">
                                         <div className="flex items-center">
                                             <div className="mr-2">
-                                                1
+                                                {admin.id}
                                             </div>
                                         </div>
                                     </td>
                                     <td className="py-3 px-6 text-left whitespace-nowrap">
                                         <div className="flex items-center justify-center" >
                                             <div className="mr-2">
-                                                Alexandre lionel
+                                                {admin.username}
                                             </div>
                                         </div>
                                     </td>
                                     <td className="py-3 px-6 text-center">
-                                        Masculin
+                                        {admin.role}
                                     </td>
                                     <td className="py-3 px-6 text-center">
                                         <div className="flex item-center justify-center">
@@ -72,7 +79,9 @@ const Admin = (props) => {
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                    </tr>
+                                ))}
+                                
                                 </tbody>
                             </table>
                         </div>

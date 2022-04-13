@@ -4,17 +4,13 @@ import { Link } from 'react-router-dom'
 import { sexe, speciality } from '../bd/fakeDb'
 const SuscriberTable = (props) => {
     let depotSuscriber = []
-    props.data.suscribers.map(suscriber => {
+    props.data.map(suscriber => {
         let totalDepots = 0
-        const depots = props.data.depots.filter(depot => suscriber.id === depot.suscriber)
-        depots.map(depot => totalDepots += depot.amount)
-        const specialityName = speciality.filter(spe => spe.id === suscriber.specialityId)
-        const sexName = sexe.filter(sex => sex.id === suscriber.sexId)
-        let depsus = {
-            suscriber : {...suscriber,specialityId: specialityName[0].name,sexId:sexName[0].name,totalDepots}
-        }
+        suscriber.deposits.map(depot => totalDepots += depot.amount)
+        let depsus = {...suscriber,totalDepots}
         return depotSuscriber.push(depsus)
     })
+    const baseUrl = 'http://localhost:8000'
   return (
     <div className="overflow-x-auto">
         <div className="min-h-screen flex justify-center font-sans ">
@@ -49,42 +45,41 @@ const SuscriberTable = (props) => {
                                     <td className="py-3 px-6 text-left whitespace-nowrap">
                                         <div className="flex items-center">
                                             <div className="mr-2">
-                                                
-                                                {object.suscriber.id}
+                                                {index}
                                             </div>
                                         </div>
                                     </td>
                                     <td className="py-3 px-6 text-left">
                                         <div className="flex items-center">
                                             <div className="mr-2">
-                                                <img alt="suscriber" className="w-6 h-6 rounded-full" src="https://images.pexels.com/photos/4565508/pexels-photo-4565508.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
+                                                <img alt="suscriber" className="w-6 h-6 rounded-full" src={baseUrl+'/'+object.picture} />
                                             </div>
-                                            <span>{object.suscriber.firstName}</span>
+                                            <span>{object.firstName}</span>
                                         </div>
                                     </td>
                                     <td className="py-3 px-6 text-left whitespace-nowrap">
                                         <div className="flex items-center justify-center" >
                                             <div className="mr-2">
-                                                {object.suscriber.lastName}
+                                                {object.lastName}
                                             </div>
                                         </div>
                                     </td>
                                     <td className="py-3 px-6 text-center">
-                                    {object.suscriber.sexId}
+                                    {object.sex.name}
                                     </td>
                                     <td className="py-3 px-6 text-center">
                                         <div className="flex item-center justify-center">
-                                            {object.suscriber.registrationNumber}
+                                            {object.registrationNumber}
                                         </div>
                                     </td>
                                     <td className="py-3 px-6 text-center">
                                         <div className="flex item-center justify-center">
-                                            {object.suscriber.specialityId}
+                                            {object.speciality.name}
                                         </div>
                                     </td>
                                     <td className="py-3 px-6 text-center">
                                         <div className="flex item-center justify-center">
-                                            {object.suscriber.totalDepots}
+                                            {object.totalDepots}
                                         </div>
                                     </td>
                                     {props.admin && 
@@ -99,7 +94,7 @@ const SuscriberTable = (props) => {
                                                 </a>
                                             </div>
                                             <div className="w-5 mr-2 transform hover:scale-110">
-                                                <Link to="/admin/adherents/edit/1" className=" hover:text-purple-500">
+                                                <Link to={`/admin/adherents/edit/${object.id}`} className=" hover:text-purple-500">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                     </svg>

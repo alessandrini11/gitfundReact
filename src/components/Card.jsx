@@ -5,7 +5,7 @@ const Card = (props) => {
   return (
     <div className={classes}>
         <p className="flex"><span className="mr-1">{props.name}</span> {props.icon}</p>
-        <p className="mt-auto text-right"><span className="counter" data-target="50000"> {props.amount} </span> XAF</p>
+        <p className="mt-auto text-right"><span className="counter" data-target="50000"> {props.amount} { props.suscriber ? props.suscriber.length : ''} </span> {props.amount && 'XAF'}</p>
     </div>
   )
 }
